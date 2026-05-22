@@ -1,6 +1,11 @@
 syntax on
 nohl
 
+
+set title
+set titlestring=%t\ -\ %{expand('%:~:h')}
+set titleold=
+
 set mouse=
 set nocompatible
 set nobackup
@@ -16,8 +21,9 @@ set shiftwidth=4
 set expandtab
 set backspace=indent,eol,start
 set hidden
+set scrolloff=5
 
-"set background=dark
+set background=dark
 
 if !has('nvim')
     set viminfo='100,\"100,:100,h,n~/.viminfo
@@ -48,11 +54,12 @@ match ExtraWhitespace /\(\t\+\|\s\+$\)/
 " 5 -> blinking vertical bar
 " 6 -> solid vertical bar
 
-"if &term =~ '^xterm'
+if &term =~ '^xterm\|tmux\|screen'
   " normal mode
   let &t_EI .= "\<Esc>[0 q"
   " insert mode
   let &t_SI .= "\<Esc>[5 q"
-"endif
+endif
 
 let g:netrw_liststyle = 3
+
