@@ -6,7 +6,8 @@ set title
 set titlestring=%t\ -\ %{expand('%:~:h')}
 set titleold=
 
-set mouse=
+set mouse=a
+set clipboard=unnamed
 set nocompatible
 set nobackup
 set ruler
