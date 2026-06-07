@@ -24,7 +24,7 @@ set backspace=indent,eol,start
 set hidden
 set scrolloff=5
 
-set background=dark
+set background=light
 
 if !has('nvim')
     set viminfo='100,\"100,:100,h,n~/.viminfo

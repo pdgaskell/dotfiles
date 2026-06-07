@@ -28,6 +28,8 @@ setopt no_auto_menu
 setopt bash_auto_list
 setopt no_menu_complete
 
+bindkey -e
+
 bindkey '^U' backward-kill-line
 
 set_terminal_title() {
@@ -57,8 +59,8 @@ set_terminal_title() {
     local keep_front=$(( available / 3 ))
     local keep_back=$(( available - keep_front - 3 ))
 
-    local front="${full_path:0:keep_front}"
-    local back="${full_path: -keep_back}"
+    local front="${full_path[1,keep_front]}"
+    local back="${full_path[-keep_back,-1]}"
 
     printf '\e]0;%s %s...%s\a' \
         "$user_host" "$front" "$back"

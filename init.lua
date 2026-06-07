@@ -23,7 +23,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.hidden = true
 vim.opt.scrolloff = 5
 
-vim.opt.background = "dark"
+vim.opt.background = "light"
 
 if vim.fn.has("nvim") == 0 then
     vim.opt.viminfo = [['100,\"100,:100,h,n~/.viminfo]]
