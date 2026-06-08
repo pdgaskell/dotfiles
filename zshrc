@@ -24,6 +24,14 @@ if [ -d ~/.zshrc.d ]; then
 fi
 unset rc
 
+HISTFILE=~/.bash_history
+HISTSIZE=10000
+SAVEHIST=20000
+
+setopt append_history
+setopt share_history
+setopt inc_append_history
+
 setopt no_auto_menu
 setopt bash_auto_list
 setopt no_menu_complete

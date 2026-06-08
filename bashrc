@@ -24,45 +24,13 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-set_terminal_title() {
-    local max_width=58
-    local user_host="${USER}@$(hostname -s)"
-    local full_path="${PWD/#$HOME/\~}"
+HISTFILE=~/.bash_history
+HISTSIZE=10000
+HISTFILESIZE=20000
 
-    local title="${user_host} ${full_path}"
+# append to history instead of overwriting
+shopt -s histappend
 
-    # Fits already
-    if (( ${#title} <= max_width )); then
-        printf '\e]0;%s\a' "$title"
-        return
-    fi
-
-    # Space available for path portion
-    local available=$(( max_width - ${#user_host} - 1 ))
-
-    # If extremely small, just show basename
-    if (( available < 10 )); then
-        printf '\e]0;%s %s\a' \
-            "$user_host" "${full_path##*/}"
-        return
-    fi
-
-    # Keep both start and end of path
-    local keep_front=$(( available / 3 ))
-    local keep_back=$(( available - keep_front - 3 ))
-
-    local front="${full_path:0:keep_front}"
-    local back="${full_path: -keep_back}"
-
-    printf '\e]0;%s %s...%s\a' \
-        "$user_host" "$front" "$back"
-}
-
-PROMPT_COMMAND="set_terminal_title${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
-
-if [[ -n "$TMUX" ]]; then
-    PS1=$'\n''\$ '
-else
-    PS1='\u@\h \w \$ '
-fi
+# write history continuously
+PROMPT_COMMAND="history -a"
 
