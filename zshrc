@@ -1,85 +1,53 @@
-# .zshrc
+# ~/.zshrc
 
-# Source global definitions
-if [ -f /etc/zshrc ]; then
-    . /etc/zshrc
-fi
+# User-specific PATH
+typeset -U path PATH
+path=("$HOME/.local/bin" "$HOME/bin" $path)
 
-# User specific environment
-if [[ ! "$PATH" == *"$HOME/.local/bin:$HOME/bin"* ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-export PATH
-
-# Uncomment the following line if you don't like systemd's auto-paging feature:
-# export SYSTEMD_PAGER=
-
-# User specific aliases and functions
-if [ -d ~/.zshrc.d ]; then
-    for rc in ~/.zshrc.d/*; do
-        if [ -f "$rc" ]; then
-            . "$rc"
-        fi
-    done
-fi
-unset rc
-
-HISTFILE=~/.bash_history
+# History
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=10000
-SAVEHIST=20000
+SAVEHIST=10000
 
-setopt append_history
-setopt share_history
-setopt inc_append_history
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
 
-setopt no_auto_menu
-setopt bash_auto_list
-setopt no_menu_complete
-
+# Emacs-style command-line editing
 bindkey -e
-
 bindkey '^U' backward-kill-line
 
-set_terminal_title() {
-    local max_width=58
-    local user_host="${USER}@$(hostname -s)"
-    local full_path="${PWD/#$HOME/~}"
+# Completion
+autoload -Uz compinit
+compinit
 
-    local title="${user_host} ${full_path}"
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list \
+    'm:{a-zA-Z}={A-Za-z}' \
+    'r:|[._-]=* r:|=*'
 
-    # Fits already
-    if (( ${#title} <= max_width )); then
-        printf '\e]0;%s\a' "$title"
-        return
-    fi
+# Useful shell behaviour
+setopt INTERACTIVE_COMMENTS
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
 
-    # Space available for path portion
-    local available=$(( max_width - ${#user_host} - 1 ))
+# Disable terminal bell
+unsetopt BEEP
 
-    # If extremely small, just show basename
-    if (( available < 10 )); then
-        printf '\e]0;%s %s\a' \
-            "$user_host" "${full_path##*/}"
-        return
-    fi
+# Minimal prompt: blank line followed by % or # for root
+PROMPT=$'\n%# '
 
-    # Keep both start and end of path
-    local keep_front=$(( available / 3 ))
-    local keep_back=$(( available - keep_front - 3 ))
+autoload -Uz add-zsh-hook
 
-    local front="${full_path[1,keep_front]}"
-    local back="${full_path[-keep_back,-1]}"
-
-    printf '\e]0;%s %s...%s\a' \
-        "$user_host" "$front" "$back"
+update_terminal_title() {
+    print -Pn '\e]0;%n@%m: %~\a'
 }
 
-precmd_functions+=(set_terminal_title)
-
-# Prompt
-if [[ -n "$TMUX" ]]; then
-    PROMPT=$'\n%# '
-else
-    PROMPT='%n@%m %~ %# '
-fi
+add-zsh-hook precmd update_terminal_title
 
