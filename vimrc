@@ -1,13 +1,12 @@
 syntax on
 nohl
 
-
 set title
 set titlestring=%t\ -\ %{expand('%:~:h')}
 set titleold=
 
 set mouse=a
-set clipboard=unnamed
+set clipboard=unnamedplus
 set nocompatible
 set nobackup
 set ruler
@@ -24,12 +23,8 @@ set backspace=indent,eol,start
 set hidden
 set scrolloff=5
 
+colorscheme catppuccin
 set background=light
-
-if !has('nvim')
-    set viminfo='100,\"100,:100,h,n~/.viminfo
-    set printoptions=paper:A4,collate:n,syntax:n,wrap:y
-endif
 
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif

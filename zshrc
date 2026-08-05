@@ -10,7 +10,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 setopt APPEND_HISTORY
-setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
@@ -39,6 +38,9 @@ setopt PUSHD_SILENT
 
 # Disable terminal bell
 unsetopt BEEP
+
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
 
 # Minimal prompt: blank line followed by % or # for root
 PROMPT=$'\n%# '
