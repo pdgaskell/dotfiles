@@ -3,7 +3,7 @@ vim.cmd.filetype({ args = { "plugin", "indent", "on" } })
 
 vim.opt.hlsearch = true
 vim.opt.title = true
-vim.opt.titlestring = "%t\\ -\\ %{expand('%:~:h')}"
+vim.opt.titlestring = "%t"
 vim.opt.titleold = ""
 
 vim.opt.mouse = "a"
