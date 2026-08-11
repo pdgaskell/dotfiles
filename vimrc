@@ -2,7 +2,7 @@ syntax on
 nohl
 
 set title
-set titlestring=%t\ -\ %{expand('%:~:h')}
+set titlestring=%t
 set titleold=
 
 set mouse=a
@@ -23,7 +23,6 @@ set backspace=indent,eol,start
 set hidden
 set scrolloff=5
 
-colorscheme catppuccin
 set background=light
 
 if has("autocmd")
