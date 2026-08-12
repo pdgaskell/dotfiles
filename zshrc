@@ -48,7 +48,29 @@ PROMPT=$'\n%# '
 autoload -Uz add-zsh-hook
 
 update_terminal_title() {
-    print -Pn '\e]0;%n@%m: %~\a'
+    local path=${(%):-%~}
+    local -a parts
+    local prefix=''
+
+    if [[ $path == /* ]]; then
+        prefix='/'
+        path=${path#/}
+    elif [[ $path == '~/'* ]]; then
+        prefix='~/'
+        path=${path#\~/}
+    fi
+
+    parts=("${(@s:/:)path}")
+
+    local i
+    for ((i = 1; i < ${#parts}; i++)); do
+        parts[i]=${parts[i][1]}
+    done
+
+    path="${prefix}${(j:/:)parts}"
+
+    print -Pn '\e]0;%n@%m: '
+    print -rn -- "${path}"$'\a'
 }
 
 add-zsh-hook precmd update_terminal_title
