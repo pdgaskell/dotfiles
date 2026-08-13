@@ -18,6 +18,7 @@ function M.setup()
         pyright = {},
         terraformls = {},
         ts_ls = {},
+        roslyn_ls = {},
         copilot = {},
     }
 
@@ -40,11 +41,11 @@ function M.setup()
                 event.buf
             ) then
                 vim.lsp.inline_completion.enable(true, { bufnr = event.buf })
-                vim.keymap.set("i", "<C-F>", vim.lsp.inline_completion.get, {
+                vim.keymap.set("i", "<M-l>", vim.lsp.inline_completion.get, {
                     buffer = event.buf,
                     desc = "Accept inline Copilot completion",
                 })
-                vim.keymap.set("i", "<C-G>", vim.lsp.inline_completion.select, {
+                vim.keymap.set("i", "<M-]>", vim.lsp.inline_completion.select, {
                     buffer = event.buf,
                     desc = "Select inline Copilot completion",
                 })

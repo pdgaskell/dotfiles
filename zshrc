@@ -1,4 +1,5 @@
-# ~/.zshrc
+# .zshrc
+ . ~/.profile
 
 # User-specific PATH
 typeset -U path PATH
@@ -36,6 +37,8 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 
+DIRSTACKSIZE=50
+
 # Disable terminal bell
 unsetopt BEEP
 
@@ -47,31 +50,25 @@ PROMPT=$'\n%# '
 
 autoload -Uz add-zsh-hook
 
-update_terminal_title() {
-    local path=${(%):-%~}
-    local -a parts
-    local prefix=''
+abbreviated_pwd() {
+    local -a components
+    local i
+    local title_path=$PWD
 
-    if [[ $path == /* ]]; then
-        prefix='/'
-        path=${path#/}
-    elif [[ $path == '~/'* ]]; then
-        prefix='~/'
-        path=${path#\~/}
+    if [[ $PWD == "$HOME" || $PWD == "$HOME/"* ]]; then
+        title_path="~${PWD#$HOME}"
     fi
 
-    parts=("${(@s:/:)path}")
-
-    local i
-    for ((i = 1; i < ${#parts}; i++)); do
-        parts[i]=${parts[i][1]}
+    components=("${(@s:/:)title_path}")
+    for ((i = 2; i < $#components; i++)); do
+        components[i]=${components[i][1]}
     done
 
-    path="${prefix}${(j:/:)parts}"
+    print -r -- "${(j:/:)components}"
+}
 
-    print -Pn '\e]0;%n@%m: '
-    print -rn -- "${path}"$'\a'
+update_terminal_title() {
+    print -Pn "\e]0;%n@%m: $(abbreviated_pwd)\a"
 }
 
 add-zsh-hook precmd update_terminal_title
-
