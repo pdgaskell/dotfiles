@@ -1,5 +1,4 @@
 # .zshrc
- . ~/.profile
 
 # User-specific PATH
 typeset -U path PATH
