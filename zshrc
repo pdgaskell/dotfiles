@@ -1,5 +1,9 @@
 # .zshrc
 
+if [ -e ~/.profile ]; then
+    source ~/.profile
+fi
+
 # User-specific PATH
 typeset -U path PATH
 path=("$HOME/.local/bin" "$HOME/bin" $path)
