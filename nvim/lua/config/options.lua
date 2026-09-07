@@ -25,6 +25,7 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "popup" }
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 250
 vim.opt.background = "light"
+vim.opt.splitright = true
 
 vim.g.netrw_liststyle = 3
 vim.g.netrw_banner = 0
