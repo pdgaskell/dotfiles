@@ -18,7 +18,15 @@ function M.setup()
         pyright = {},
         terraformls = {},
         ts_ls = {},
-        roslyn_ls = {},
+        roslyn_ls = {
+          args = {
+            "--logLevel=Information",
+            "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
+            "--stdio",
+          },
+          -- Ensures it looks for your globally installed dotnet tool
+          exe = "roslyn-language-server",
+        },
         copilot = {},
     }
 

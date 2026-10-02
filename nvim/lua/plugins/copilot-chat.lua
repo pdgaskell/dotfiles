@@ -14,10 +14,10 @@ return {
         submit_prompt = {
           insert = "<C-g>",
         },
-        window = {
-          layout = "vertical",
-          width = 0.37,
-        },
+      },
+      window = {
+        layout = "vertical",
+        width = 0.37,
       },
     },
   },
